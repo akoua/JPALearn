@@ -1,0 +1,32 @@
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/jpa_learn
+    username: postgres
+    password: postgres
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: local-pool
+      connection-timeout: 30000
+      idle-timeout: 10000
+      minimum-idle: 0
+      max-lifetime: 120000
+      maximum-pool-size: 7 #TODO à changer
+      connection-test-query: SELECT 1
+      schema: learn
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      platform: postgres
+  flyway:
+    default-schema: learn
+    enabled: true
+server:
+  port: 8081
