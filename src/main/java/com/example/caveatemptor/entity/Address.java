@@ -5,8 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -16,16 +15,13 @@ import java.io.Serializable;
 @Data
 @With
 public class Address implements Serializable {
-    //    @NotNull
-//    @Column(nullable = false)
-    private String street;
 
-    //    @NotNull
-//    @Column(nullable = false, length = 5)
-    private String zipcode;
-
+    @Embedded
     @NotNull
-    @Column(nullable = false)
-    private String city;
+    @AttributeOverrides({
+            @AttributeOverride(name = "name", column = @Column(name = "city")),
+            @AttributeOverride(name = "country", column = @Column(name = "pays"))
+    })
+    private City city;
 
 }

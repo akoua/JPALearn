@@ -1,6 +1,7 @@
 package com.example.caveatemptor.service;
 
 import com.example.caveatemptor.entity.Address;
+import com.example.caveatemptor.entity.City;
 import com.example.caveatemptor.entity.Item;
 import com.example.caveatemptor.entity.User;
 import com.example.caveatemptor.repository.ItemRepository;
@@ -25,6 +26,9 @@ public class ServiceTest {
                 .withName("Akoua ArtWork");
         itemRepository.save(item);
 
-        userRepository.save(new User().withName("Akoua").withAdress(new Address().withCity("Baby")));
+        userRepository.save(new User().withName("Akoua").withAdress(
+                new Address().withCity(
+                        new City().withName("Baby").withCountry("CI")
+                )));
     }
 }
