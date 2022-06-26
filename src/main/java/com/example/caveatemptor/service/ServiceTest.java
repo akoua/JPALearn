@@ -2,8 +2,8 @@ package com.example.caveatemptor.service;
 
 import com.example.caveatemptor.entity.Address;
 import com.example.caveatemptor.entity.City;
-import com.example.caveatemptor.entity.Item;
 import com.example.caveatemptor.entity.User;
+import com.example.caveatemptor.entity.others.SwizzZipCode;
 import com.example.caveatemptor.repository.ItemRepository;
 import com.example.caveatemptor.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -22,13 +22,14 @@ public class ServiceTest {
     private UserRepository userRepository;
 
     public void addNewInstance() {
-        Item item = new Item()
-                .withName("Akoua ArtWork");
-        itemRepository.save(item);
-
-        userRepository.save(new User().withName("Akoua").withAdress(
+//        Item item = new Item()
+//                .withName("Akoua ArtWork").withBuyNowPrice(new MonetaryAmount(BigDecimal.valueOf(1.1), Currency.getInstance("USD")));
+//        itemRepository.save(item);
+        User user = new User().withName("Akoua").withHomeAddress(
                 new Address().withCity(
-                        new City().withName("Baby").withCountry("CI")
-                )));
+                        new City().withName("Baby").withCountry("CI").withZipcode(new SwizzZipCode("1234"))
+                ));
+        userRepository.save(user);
+        userRepository.findAll().stream().forEach(System.out::println);
     }
 }

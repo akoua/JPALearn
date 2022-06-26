@@ -1,5 +1,7 @@
 package com.example.caveatemptor.entity;
 
+import com.example.caveatemptor.entity.converter.MonetaryAmountConverter;
+import com.example.caveatemptor.entity.others.MonetaryAmount;
 import com.example.caveatemptor.enums.AuctionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,6 +45,10 @@ public class Item implements Serializable {
     private Date auctionEnd;
     @OneToMany(mappedBy = "item")
     private Set<Bid> bids;
+    @NotNull
+    @Convert(converter = MonetaryAmountConverter.class)
+    @Column(name = "price", length = 63)
+    private MonetaryAmount buyNowPrice;
 
     /*@Id
     @GeneratedValue(generator = "ID_GENERATOR")
