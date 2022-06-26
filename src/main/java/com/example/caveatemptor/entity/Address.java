@@ -23,5 +23,4 @@ public class Address implements Serializable {
             @AttributeOverride(name = "country", column = @Column(name = "pays"))
     })
     private City city;
-
 }

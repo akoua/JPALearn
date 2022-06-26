@@ -1,4 +1,4 @@
-package com.example.caveatemptor.entity;
+package com.example.caveatemptor.entity.customizer;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
@@ -16,8 +16,8 @@ public class CustomTableName extends PhysicalNamingStrategyStandardImpl {
 
     @Override
     public Identifier toPhysicalColumnName(Identifier name, JdbcEnvironment context) {
-        System.out.println(">>> toPhysicalColumnName " + name.getText());
-        
+//        System.out.println(">>> toPhysicalColumnName " + name.getText());
+
         return super.toPhysicalColumnName(name, context);
     }
 }

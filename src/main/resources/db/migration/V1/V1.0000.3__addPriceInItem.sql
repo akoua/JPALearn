@@ -1,0 +1,9 @@
+ALTER TABLE IF EXISTS ce_item
+    ADD COLUMN price VARCHAR (20);
+
+UPDATE ce_item
+SET price='RAS';
+
+ALTER TABLE IF EXISTS ce_item
+ALTER
+COLUMN price SET NOT NULL;

@@ -23,5 +23,5 @@ public class User implements Serializable {
     private String id_user;
     private String name;
     @Embedded
-    private Address adress;
+    private Address homeAddress;
 }
