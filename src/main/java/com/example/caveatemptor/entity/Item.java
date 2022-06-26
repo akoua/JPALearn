@@ -1,20 +1,17 @@
 package com.example.caveatemptor.entity;
 
-import com.example.caveatemptor.entity.converter.MonetaryAmountConverter;
 import com.example.caveatemptor.entity.others.MonetaryAmount;
 import com.example.caveatemptor.enums.AuctionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -37,17 +34,23 @@ public class Item implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuctionType auctionType = AuctionType.HIGHEST_BID;
-    @Column(insertable = true)
-    @ColumnDefault(value = "1.0")
-    @Generated(value = GenerationTime.INSERT)
-    private BigDecimal initialPrice;
+    @NotNull
+    @Type(type = "monetary_amount_eur")
+    @Columns(columns = {
+            @Column(name = "initial_amount"),
+            @Column(name = "initial_currency", length = 3)
+    })
+    private MonetaryAmount initialPrice;
     private Date auctionStart;
     private Date auctionEnd;
     @OneToMany(mappedBy = "item")
     private Set<Bid> bids;
     @NotNull
-    @Convert(converter = MonetaryAmountConverter.class)
-    @Column(name = "price", length = 63)
+    @Type(type = "monetary_amount_usd")
+    @Columns(columns = {
+            @Column(name = "buynowprice_amount"),
+            @Column(name = "buynowprice_currency", length = 3)
+    })
     private MonetaryAmount buyNowPrice;
 
     /*@Id
