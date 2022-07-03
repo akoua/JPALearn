@@ -2,11 +2,11 @@ package com.example.caveatemptor.entity.others;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 public abstract class BillingDetails {
 
@@ -14,6 +14,6 @@ public abstract class BillingDetails {
     @GeneratedValue(generator = "ID_GENERATOR")
     private String id;
 
-    //    @NotNull
+    @NotNull
     private String owner;
 }

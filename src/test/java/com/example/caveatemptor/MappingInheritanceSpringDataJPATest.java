@@ -4,6 +4,7 @@ import com.example.caveatemptor.configuration.SpringDataConfiguration;
 import com.example.caveatemptor.entity.BankAccount;
 import com.example.caveatemptor.entity.CreditCard;
 import com.example.caveatemptor.repository.BankAccountRepository;
+import com.example.caveatemptor.repository.BillingDetailsRepository;
 import com.example.caveatemptor.repository.CreditCardRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,22 +25,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MappingInheritanceSpringDataJPATest {
 
     @Autowired
+    private BillingDetailsRepository billingDetailsRepository;
+    @Autowired
     private CreditCardRepository creditCardRepository;
-
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
     @Test
     void storeLoadEntities() {
 
-        BankAccount bankAccount = new BankAccount(
-                "Mike Johnson", "12345", "Delta Bank", "BANKXY12");
+        BankAccount bankAccount = new BankAccount()
+                .withAccount("12345")
+                .withBankName("Delta Bank")
+                .withSwift("BANKXY12");
+        bankAccount.setOwner("Mike Johnson");
         bankAccountRepository.save(bankAccount);
-        
-        CreditCard creditCard = new CreditCard(
-                "John Smith", "123456789", "10", "2030");
+
+        CreditCard creditCard = new CreditCard()
+                .withCardNumber("123456789")
+                .withExpMonth("10")
+                .withExpYear("2030");
+        creditCard.setOwner("John Smith");
         creditCardRepository.save(creditCard);
 
+
+        List all = billingDetailsRepository.findAll();
         List<CreditCard> creditCards =
                 creditCardRepository.findByOwner("John Smith");
         List<BankAccount> bankAccounts =
