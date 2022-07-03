@@ -3,15 +3,22 @@ package com.example.caveatemptor;
 import com.example.caveatemptor.configuration.SpringDataConfiguration;
 import com.example.caveatemptor.entity.BankAccount;
 import com.example.caveatemptor.entity.CreditCard;
+import com.example.caveatemptor.entity.Item;
+import com.example.caveatemptor.entity.others.Dimensions;
+import com.example.caveatemptor.entity.others.MonetaryAmount;
+import com.example.caveatemptor.entity.others.Weight;
 import com.example.caveatemptor.repository.BankAccountRepository;
 import com.example.caveatemptor.repository.BillingDetailsRepository;
 import com.example.caveatemptor.repository.CreditCardRepository;
+import com.example.caveatemptor.repository.ItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -30,6 +37,8 @@ public class MappingInheritanceSpringDataJPATest {
     private CreditCardRepository creditCardRepository;
     @Autowired
     private BankAccountRepository bankAccountRepository;
+    @Autowired
+    private ItemRepository itemRepository;
 
     @Test
     void storeLoadEntities() {
@@ -48,7 +57,40 @@ public class MappingInheritanceSpringDataJPATest {
         creditCard.setOwner("John Smith");
         creditCardRepository.save(creditCard);
 
+        Dimensions dimension = new Dimensions()
+                .withDepth(BigDecimal.valueOf(1.0))
+                .withHeight(BigDecimal.valueOf(20.0))
+                .withWidth(BigDecimal.valueOf(30.0));
+        dimension.setName("Centimètre");
+        dimension.setSymbol("cm");
+        Dimensions dimension2 = new Dimensions()
+                .withDepth(BigDecimal.valueOf(1.0))
+                .withHeight(BigDecimal.valueOf(20.0))
+                .withWidth(BigDecimal.valueOf(30.0));
+        dimension2.setName("Mètre");
+        dimension2.setSymbol("m");
+        Weight weight = new Weight()
+                .withValue(BigDecimal.valueOf(40.0));
+        weight.setName("Kilogramme");
+        weight.setSymbol("Kg");
 
+        Item item = new Item()
+                .withName("Test ArtWork")
+                .withBuyNowPrice(new MonetaryAmount(BigDecimal.valueOf(50_000.1), Currency.getInstance("USD")))
+                .withInitialPrice(new MonetaryAmount(BigDecimal.valueOf(1_000.0), Currency.getInstance("USD")))
+                .withDimensions(dimension)
+                .withWeight(weight);
+        Item item2 = new Item()
+                .withName("Test 2")
+                .withBuyNowPrice(new MonetaryAmount(BigDecimal.valueOf(5_000.1), Currency.getInstance("USD")))
+                .withInitialPrice(new MonetaryAmount(BigDecimal.valueOf(5_000.0), Currency.getInstance("USD")))
+                .withDimensions(dimension2)
+                .withWeight(weight);
+        itemRepository.save(item);
+        itemRepository.save(item2);
+
+        List items = itemRepository.findAll();
+        List<Item> kilogramme = itemRepository.findByDimensions_SymbolIgnoreCase("cm");
         List all = billingDetailsRepository.findAll();
         List<CreditCard> creditCards =
                 creditCardRepository.findByOwner("John Smith");

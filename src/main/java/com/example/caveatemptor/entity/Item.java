@@ -1,11 +1,10 @@
 package com.example.caveatemptor.entity;
 
+import com.example.caveatemptor.entity.others.Dimensions;
 import com.example.caveatemptor.entity.others.MonetaryAmount;
+import com.example.caveatemptor.entity.others.Weight;
 import com.example.caveatemptor.enums.AuctionType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.With;
+import lombok.*;
 import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 
@@ -22,6 +21,7 @@ import java.util.Set;
 @Access(AccessType.FIELD)
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Item implements Serializable {
 
     @Id
@@ -52,6 +52,10 @@ public class Item implements Serializable {
             @Column(name = "buynowprice_currency", length = 3)
     })
     private MonetaryAmount buyNowPrice;
+    @Embedded
+    private Weight weight;
+    @Embedded
+    private Dimensions dimensions;
 
     /*@Id
     @GeneratedValue(generator = "ID_GENERATOR")
