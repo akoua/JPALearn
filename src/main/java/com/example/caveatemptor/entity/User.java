@@ -21,9 +21,9 @@ public class User implements Serializable {
     private String id;
     private String name;
     @OneToOne(
-            mappedBy = "userT",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             optional = false,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.REMOVE)
+    @JoinColumn(unique = true)
     private Address shippingAddress;
 }

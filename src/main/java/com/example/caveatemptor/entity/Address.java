@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,14 +17,7 @@ import java.io.Serializable;
 public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "foreignKeyGenerator")
-    @GenericGenerator(
-            name = "foreignKeyGenerator",
-            strategy = "foreign",
-            parameters = @org.hibernate.annotations.Parameter(
-                    name = "property", value = "userT"
-            )
-    )
+    @GeneratedValue(generator = "ID_GENERATOR")
     private String id;
     @Embedded
     @NotNull
@@ -34,8 +26,4 @@ public class Address implements Serializable {
             @AttributeOverride(name = "country", column = @Column(name = "pays"))
     })
     private City city;
-
-    @OneToOne(optional = false)
-    @PrimaryKeyJoinColumn
-    private User userT;
 }
