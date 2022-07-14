@@ -5,13 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "users")
 @Data
 @With
 @NoArgsConstructor
@@ -20,8 +18,12 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(generator = "ID_GENERATOR")
-    private String id_user;
+    private String id;
     private String name;
-    @Embedded
-    private Address homeAddress;
+    @OneToOne(
+            mappedBy = "userT",
+            fetch = FetchType.EAGER,
+            optional = false,
+            cascade = CascadeType.ALL)
+    private Address shippingAddress;
 }

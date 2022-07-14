@@ -32,7 +32,7 @@ public class ServiceTest {
                 .withBuyNowPrice(new MonetaryAmount(BigDecimal.valueOf(50_000.1), Currency.getInstance("USD")))
                 .withInitialPrice(new MonetaryAmount(BigDecimal.valueOf(1_000.0), Currency.getInstance("USD")));
         itemRepository.save(item);
-        User user = new User().withName("Akoua").withHomeAddress(
+        User user = new User().withName("Akoua").withShippingAddress(
                 new Address().withCity(
                         new City().withName("Baby").withCountry("CI").withZipcode(new SwizzZipCode("1234"))
                 ));
